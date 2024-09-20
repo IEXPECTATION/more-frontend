@@ -1,12 +1,13 @@
-<script setup lang="ts">
-import NavBar from './views/NavBar.vue';
-import WorkSpace from './views/WorkSpace.vue';
-</script>
-
 <template>
-  <NavBar/>
-  <WorkSpace/>
+  <HomePage :UsingSimplified="true" />
 </template>
 
-<style scoped>
+<script setup lang="ts">
+import HomePage from "./views/HomePage.vue"
+</script>
+
+<style lang="css">
+* {
+  user-select: none;
+}
 </style>
