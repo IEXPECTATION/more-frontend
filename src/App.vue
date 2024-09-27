@@ -1,12 +1,12 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import WorkSpace from './views/WorkSpace.vue';
-</script>
-
 <template>
-  <WorkSpace/>
+  <RouterView />
 </template>
 
-<style scoped>
+<script setup lang="ts">
+</script>
+
+<style lang="css">
+* {
+  user-select: none;
+}
 </style>
