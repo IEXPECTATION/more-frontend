@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
+  <div class="homepage-container">
     <div v-for="item in items" :key="item.name" :class="item.class">
       <p class="title">{{ item.name }}</p>
-      <p class="amount" @click="popup(item.name)">{{ item.amount }}</p>
+      <p class="amount" :class="colorize(item)" @click="popup(item.name)">{{ item.amount }}</p>
       <div class="buttons" v-if="item.name.includes('Egg')">
         <button class="plus-button" @click="item.amount++">Rate</button>
         <button class="minus-button" @click="item.amount--">Period</button>
@@ -13,11 +13,24 @@
       </div>
     </div>
   </div>
+
+  <Diaglog :visible="enable" @update:visible="enable = $event">
+    Hello World
+  </Diaglog>
+
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-const items = reactive([
+import Diaglog from '@/components/simplified/diaglog.vue';
+import { reactive, ref } from 'vue';
+
+interface Card {
+  name: string,
+  amount: number,
+  class: string,
+};
+
+const items = reactive<Card[]>([
   {
     name: "Goose",
     amount: 0,
@@ -44,13 +57,23 @@ const items = reactive([
     class: "box silver-egg",
   }]);
 
+const enable = ref(false);
+
 function popup(name: string) {
-  alert(`Hello ${name}!`);
+  enable.value = true;
+}
+
+function colorize(item: Card): string {
+  if (item.name.includes("Egg")) {
+    return "";
+  }
+
+  return item.amount >= 0 ? "red" : "green";
 }
 </script>
 
 <style lang="css" scoped>
-.container {
+.homepage-container {
   height: 100%;
   width: 100%;
   padding: 5% 15%;
@@ -59,18 +82,29 @@ function popup(name: string) {
   gap: 10px;
 }
 
-.container .box {
+.homepage-container .box {
   height: 300px;
   padding: 10%;
+}
+
+.box:hover .amount.red {
+  color: red;
+}
+
+.box:hover .amount.green {
+  color: green;
 }
 
 .box {
   background-color: #fefefe;
   box-shadow: 1px 1px 8px 0px #f0f0f0;
+  display: flex;
+  flex-direction: column;
 }
 
 .box:hover .title {
   font-size: 2em;
+  font-weight: 600;
 }
 
 .box p {
@@ -80,13 +114,14 @@ function popup(name: string) {
 
 .box .title {
   font-size: 1.5em;
+  flex: 1;
 }
 
 .box .amount {
-  margin-top: 3%;
   font-size: 1.2em;
   font-weight: bolder;
   cursor: pointer;
+  flex: 1;
 }
 
 .golden-egg p {
@@ -97,16 +132,27 @@ function popup(name: string) {
   color: silver;
 }
 
-.buttons {
+.box .buttons {
   display: flex;
   justify-content: center;
   margin-top: 20px;
   gap: 10px;
+  flex: 1;
 }
 
 .buttons button {
-  width: 50px;
+  width: 60px;
   height: 30px;
   text-align: center;
+}
+
+.popup-window {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: grey;
 }
 </style>
