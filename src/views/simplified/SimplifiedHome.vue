@@ -23,6 +23,8 @@
     </div>
   </div>
 
+  
+
   <Diaglog :visible="diaglogEnable" @update:visible="diaglogEnable = $event">
     <p class="diaglog-title">Update you {{ diaglogName }}</p>
   </Diaglog>

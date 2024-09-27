@@ -1,8 +1,7 @@
-import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { computed, ref } from 'vue';
 
-export const login_state = defineStore("loginState", () => {
-  const LoginState = ref(false);
-
-  return { LoginState };
+export const useLoginState = defineStore("loginState", () => {
+  const loginState = ref(false);
+  return { loginState };
 });
