@@ -1,17 +1,20 @@
 <template>
-  <div class="diaglog-container" v-show="props.visible" @click="close" @keydown="keydown" tabindex="0" ref="diaglog-container">
+  <div class="diaglog-container" v-show="props.visible" @click="close">
     <div class="diaglog-box" @click.stop>
       <slot></slot>
+      <input type="text" ref="amountInput" @keydown="keydown">
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, onUpdated } from 'vue';
+import { defineProps, onUpdated, useTemplateRef } from 'vue';
 const props = defineProps(["visible"]);
 const emit = defineEmits(['update:visible'])
-// const containerRefs = useTemplateRef();
+const inputRefs = useTemplateRef("amountInput");
+
 onUpdated(() => {
+  inputRefs.value?.focus();
 })
 
 function close() {

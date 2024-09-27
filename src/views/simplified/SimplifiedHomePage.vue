@@ -1,8 +1,17 @@
 <template>
   <div class="homepage-container">
     <div v-for="item in items" :key="item.name" :class="item.class">
-      <p class="title">{{ item.name }}</p>
-      <p class="amount" :class="colorize(item)" @click="popup(item.name)">{{ item.amount }}</p>
+      <template v-if="!item.name.includes('Egg')">
+        <p class="title" @click="popup(item.name)">{{ item.name }}</p>
+        <p class="amount" :class="colorize(item)" @click="popup(item.name)">{{
+          item.amount }}</p>
+      </template>
+      <template v-else>
+        <p class="title">{{ item.name }}</p>
+        <p class="amount">{{
+          item.amount }}</p>
+      </template>
+
       <div class="buttons" v-if="item.name.includes('Egg')">
         <button class="plus-button" @click="item.amount++">Rate</button>
         <button class="minus-button" @click="item.amount--">Period</button>
@@ -14,8 +23,8 @@
     </div>
   </div>
 
-  <Diaglog :visible="enable" @update:visible="enable = $event">
-    Hello World
+  <Diaglog :visible="diaglogEnable" @update:visible="diaglogEnable = $event">
+    <p class="diaglog-title">Update you {{ diaglogName }}</p>
   </Diaglog>
 
 </template>
@@ -57,17 +66,15 @@ const items = reactive<Card[]>([
     class: "box silver-egg",
   }]);
 
-const enable = ref(false);
+const diaglogEnable = ref(false);
+const diaglogName = ref("");
 
 function popup(name: string) {
-  enable.value = true;
+  diaglogEnable.value = true;
+  diaglogName.value = name;
 }
 
 function colorize(item: Card): string {
-  if (item.name.includes("Egg")) {
-    return "";
-  }
-
   return item.amount >= 0 ? "red" : "green";
 }
 </script>
@@ -105,6 +112,7 @@ function colorize(item: Card): string {
 .box:hover .title {
   font-size: 2em;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .box p {
@@ -154,5 +162,11 @@ function colorize(item: Card): string {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: grey;
+}
+
+.diaglog-title {
+  font-size: 1.2em;
+  text-align: center;
+
 }
 </style>
