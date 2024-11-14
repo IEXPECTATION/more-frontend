@@ -10,7 +10,7 @@ import { useRouter } from 'vue-router';
 const softwareMode = useSoftwareMode();
 const router = useRouter();
 function login() {
-  softwareMode.simpified = true;
+  softwareMode.basic = true;
   router.replace("/");
 }
 </script>

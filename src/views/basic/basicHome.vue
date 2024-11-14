@@ -1,72 +1,67 @@
 <template>
-  <div class="homepage-container">
+  <div class="card-container">
     <div v-for="item in items" :key="item.name" :class="item.class">
+      <p class="title" @click="popup(item.name)">{{ item.name }}</p>
       <template v-if="!item.name.includes('Egg')">
-        <p class="title" @click="popup(item.name)">{{ item.name }}</p>
-        <p class="amount" :class="colorize(item)" @click="popup(item.name)">{{
-          item.amount }}</p>
+        <p class="amount" :class="colorize(getAmount(item.name))" @click="popup(item.name)">{{
+          getAmount(item.name) }}</p>
       </template>
       <template v-else>
-        <p class="title">{{ item.name }}</p>
-        <p class="amount">{{
-          item.amount }}</p>
+        <p class="amount" @click="popup(item.name)">{{
+          getAmount(item.name) }}</p>
       </template>
 
-      <div class="buttons" v-if="item.name.includes('Egg')">
-        <button class="plus-button" @click="item.amount++">Rate</button>
-        <button class="minus-button" @click="item.amount--">Period</button>
+      <!-- <div class="buttons" v-if="item.name.includes('Egg')">
+        <button class="rate-button" @click="item.amount++">Rate</button>
+        <button class="gather-button" @click="item.amount--">Gather</button>
       </div>
       <div class="buttons" v-else>
         <button class="plus-button" @click="item.amount++">+</button>
         <button class="minus-button" @click="item.amount--">-</button>
-      </div>
+      </div> -->
     </div>
   </div>
 
-  
-
-  <Diaglog :visible="diaglogEnable" @update:visible="diaglogEnable = $event">
-    <p class="diaglog-title">Update you {{ diaglogName }}</p>
-  </Diaglog>
+  <Diaglog :visible="diaglogEnable" @update:visible="diaglogEnable = $event" :name="diaglogName"/>
 
 </template>
 
 <script setup lang="ts">
-import Diaglog from '@/components/simplified/diaglog.vue';
-import { reactive, ref } from 'vue';
+import Diaglog from '@/components/basic/amount_updatation.vue';
+import { useAmounts } from '@/stores/amount';
+import { computed, reactive, ref } from 'vue';
 
-interface Card {
-  name: string,
-  amount: number,
-  class: string,
-};
+const amountStore = useAmounts();
 
-const items = reactive<Card[]>([
+function getAmount(name: string) {
+  try {
+    return amountStore.Amount(name);
+  } catch (ex: unknown) {
+    return 0;
+  }
+}
+
+const items = [
   {
     name: "Goose",
-    amount: 0,
     class: "box goose",
   },
   {
     name: "Dream Fund",
-    amount: 0,
     class: "box fund",
   },
   {
     name: "Cash",
-    amount: 0,
     class: "box cash",
   },
   {
     name: "Goldren Egg",
-    amount: 0,
     class: "box golden-egg",
   },
   {
     name: "Silver Egg",
-    amount: 0,
     class: "box silver-egg",
-  }]);
+  }];
 
 const diaglogEnable = ref(false);
 const diaglogName = ref("");
@@ -74,15 +69,16 @@ const diaglogName = ref("");
 function popup(name: string) {
   diaglogEnable.value = true;
   diaglogName.value = name;
+  amountStore.UpdateAmount(name, getAmount(name) + 1);
 }
 
-function colorize(item: Card): string {
-  return item.amount >= 0 ? "red" : "green";
+function colorize(amount: number): string {
+  return amount >= 0 ? "red" : "green";
 }
 </script>
 
 <style lang="css" scoped>
-.homepage-container {
+.card-container {
   height: 100%;
   width: 100%;
   padding: 5% 15%;
@@ -91,7 +87,7 @@ function colorize(item: Card): string {
   gap: 10px;
 }
 
-.homepage-container .box {
+.card-container .box {
   height: 300px;
   padding: 10%;
 }
@@ -109,6 +105,7 @@ function colorize(item: Card): string {
   box-shadow: 1px 1px 8px 0px #f0f0f0;
   display: flex;
   flex-direction: column;
+  background-color: #fefcff;
 }
 
 .box:hover .title {
@@ -142,7 +139,7 @@ function colorize(item: Card): string {
   color: silver;
 }
 
-.box .buttons {
+/* .box .buttons {
   display: flex;
   justify-content: center;
   margin-top: 20px;
@@ -154,7 +151,7 @@ function colorize(item: Card): string {
   width: 60px;
   height: 30px;
   text-align: center;
-}
+} */
 
 .popup-window {
   width: 400px;
@@ -162,13 +159,12 @@ function colorize(item: Card): string {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  translate: -50%, -50%;
   background-color: grey;
 }
 
 .diaglog-title {
   font-size: 1.2em;
-  text-align: center;
-
+  font-weight: bold;
 }
 </style>
