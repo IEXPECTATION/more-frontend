@@ -1,14 +1,8 @@
 <template>
-  <p @click="backHome">MOney REcipe</p>
+  <p>MOney REcipe</p>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
-function backHome() {
-  router.replace("/");
-}
 </script>
 
 <style scoped>

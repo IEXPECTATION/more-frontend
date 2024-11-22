@@ -4,9 +4,9 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useLoginState } from './stores/login_state';
+import { useLoginStore } from './stores/login_state';
 import { useRouter } from 'vue-router';
-const loginState = useLoginState();
+const loginState = useLoginStore();
 const router = useRouter()
 onMounted(() => {
   if(!loginState.loginState) {

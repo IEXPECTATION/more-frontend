@@ -22,20 +22,20 @@
     </div>
   </div>
 
-  <Diaglog :visible="diaglogEnable" @update:visible="diaglogEnable = $event" :name="diaglogName"/>
+  <Diaglog :visible="diaglogEnable" @update:visible="diaglogEnable = $event" :name="diaglogName" />
 
 </template>
 
 <script setup lang="ts">
-import Diaglog from '@/components/basic/amount_updatation.vue';
-import { useAmounts } from '@/stores/amount';
-import { computed, reactive, ref } from 'vue';
+import Diaglog from '@/components/basic/popup_diaglog.vue';
+import { useAmounts } from '@/stores/amounts';
+import { ref } from 'vue';
 
 const amountStore = useAmounts();
 
 function getAmount(name: string) {
   try {
-    return amountStore.Amount(name);
+    return amountStore.Get(name);
   } catch (ex: unknown) {
     return 0;
   }
@@ -69,7 +69,6 @@ const diaglogName = ref("");
 function popup(name: string) {
   diaglogEnable.value = true;
   diaglogName.value = name;
-  amountStore.UpdateAmount(name, getAmount(name) + 1);
 }
 
 function colorize(amount: number): string {
@@ -105,7 +104,7 @@ function colorize(amount: number): string {
   box-shadow: 1px 1px 8px 0px #f0f0f0;
   display: flex;
   flex-direction: column;
-  background-color: #fefcff;
+  background-color: #fffeff;
 }
 
 .box:hover .title {

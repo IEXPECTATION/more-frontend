@@ -8,7 +8,7 @@ export const useAmounts = defineStore("Amount", () => {
   let goldrenEgg = ref(0);
   let silverEgg = ref(0);
 
-  function Amount(name: string) {
+  function Get(name: string) {
     switch (name) {
       case "Goose":
         return goose.value;
@@ -25,7 +25,7 @@ export const useAmounts = defineStore("Amount", () => {
     }
   }
 
-  function UpdateAmount(name: string, amount: number) {
+  function Set(name: string, amount: number) {
     switch (name) {
       case "Goose":
         goose.value = amount;
@@ -46,11 +46,11 @@ export const useAmounts = defineStore("Amount", () => {
         throw new Error("Unknown name!");
     }
 
-    notifiy()
+    sync()
   }
 
-  function notifiy() {
+  function sync() {
   }
 
-  return { Amount, UpdateAmount };
+  return { Get, Set };
 })
