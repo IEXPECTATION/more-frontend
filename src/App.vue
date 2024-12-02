@@ -4,12 +4,13 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useLoginStore } from './stores/login_state';
 import { useRouter } from 'vue-router';
-const loginState = useLoginStore();
-const router = useRouter()
+import { useCommonStore } from './stores/common_store';
+const router = useRouter();
+const rawStore = useCommonStore();
+
 onMounted(() => {
-  if(!loginState.loginState) {
+  if (!rawStore.Logined()) {
     router.replace("/login");
   }
 })

@@ -11,14 +11,10 @@
           getAmount(item.name) }}</p>
       </template>
 
-      <!-- <div class="buttons" v-if="item.name.includes('Egg')">
-        <button class="rate-button" @click="item.amount++">Rate</button>
-        <button class="gather-button" @click="item.amount--">Gather</button>
+      <div class="buttons">
+        <button class="plus-button">+</button>
+        <button class="minus-button">-</button>
       </div>
-      <div class="buttons" v-else>
-        <button class="plus-button" @click="item.amount++">+</button>
-        <button class="minus-button" @click="item.amount--">-</button>
-      </div> -->
     </div>
   </div>
 
@@ -138,7 +134,7 @@ function colorize(amount: number): string {
   color: silver;
 }
 
-/* .box .buttons {
+.box .buttons {
   display: flex;
   justify-content: center;
   margin-top: 20px;
@@ -150,7 +146,10 @@ function colorize(amount: number): string {
   width: 60px;
   height: 30px;
   text-align: center;
-} */
+  border: none;
+  background-color: #eeeeee;
+  font-size: 14px;
+}
 
 .popup-window {
   width: 400px;

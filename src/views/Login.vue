@@ -7,18 +7,18 @@
 </template>
 
 <script setup lang="ts">
-import { useLoginStore } from '@/stores/login_state';
-import { useSoftwareMode } from '@/stores/software_mode';
 import { useRouter } from 'vue-router';
 import Logo from '@/components/logo.vue';
+import { useCommonStore } from '@/stores/common_store';
 
-const softwareMode = useSoftwareMode();
-const loginStore = useLoginStore();
+const rawStore = useCommonStore();
 const router = useRouter();
+
 function login() {
-  softwareMode.basic = true;
-  loginStore.loginState = true;
-  router.replace("/");
+  if(!rawStore.Logined()) {
+    rawStore.Login();
+    router.replace("/");
+  }
 }
 </script>
 
