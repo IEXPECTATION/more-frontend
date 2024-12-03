@@ -1,31 +1,22 @@
 <template>
   <div class="diaglog-container" v-show="props.visible" @click="close">
     <div class="diaglog-box" @click.stop>
-      <p class="diaglog-title">Update your {{ props.name }}!</p>
       <div class="user-input-box">
-        <!-- <div class="prompt-box">
-          <template v-if="(props.name as string).includes('Egg')">
-            <label class="amount-prompt" for="input-amount">Amount:</label>
-            <label class="period-prompt" for="input-period">Period:</label>
-          </template>
-          <template v-else>
-            <label class="amount-prompt" for="input-amount">Amount:</label>
-            <label class="period-prompt" for="input-period">Rate:</label>
-          </template>
-        </div> -->
-        <div class="input-box">
-          <template v-if="props.name.includes('Egg')">
-            <input id="input-amount" type="number" ref="inputAmpunt" @keydown="pressKey" placeholder="Input your new Amount">
-            <input id="input-period" type="number" ref="inputPeriod" @keydown="pressKey" placeholder="Input your new Preiod">
-          </template>
-          <template v-else>
-            <input id="input-amount" type="number" ref="inputAmpunt" @keydown="pressKey" placeholder="Input your new Amount">
-            <input id="input-period" type="number" ref="inputPeriod" @keydown="pressKey" placeholder="Input your new Rate">
-          </template>
-        </div>
+        <template v-if="props.name == 'Cash'">
+          <p class="title">Update your Cash!</p>
+          <div class="input-box">
+            <input id="input-amount" type="number" ref="inputAmpunt" @keydown="pressKey"
+              placeholder="Input your new Amount">
+          </div>
+        </template>
+        <template v-else-if="props.name == 'Dream Fund'">
+          <p class="title">Dream Fund</p>
+        </template>
       </div>
-      <button @click="update">Ok</button>
-      <button @click="close">Cannel</button>
+      <div class="buttons">
+        <button @click="update">Ok</button>
+        <button @click="close">Cannel</button>
+      </div>
     </div>
   </div>
 </template>
@@ -50,21 +41,24 @@ onUpdated(() => {
 
 function close() {
   emit('update:visible', false);
-  if(inputRefs.value) {
+  if (inputRefs.value) {
     inputRefs.value.value = "";
   }
 }
 
 function update() {
-  let currentAmount = parseInt(inputRefs.value?.value ?? '0', 10);
-  if (currentAmount != amount) {
-    amountStore.Set(props.name, currentAmount);
+  let inputAmount = inputRefs.value?.value ?? '';
+  if (inputAmount != '') {
+    let currentAmount = parseInt(inputAmount, 10);
+    if (currentAmount != amount) {
+      amountStore.Set(props.name, currentAmount);
+    }
   }
   close();
 }
 
 function pressKey(event: KeyboardEvent) {
-  if(event.key == "Enter") {
+  if (event.key == "Enter") {
     update();
   } else if (event.key == "Escape") {
     close();
@@ -95,26 +89,39 @@ function pressKey(event: KeyboardEvent) {
 }
 
 .user-input-box {
-  margin: 20px 0;
+  margin: 40px 0;
   display: flex;
   height: 120px;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-/* .prompt-box {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-} */
+.user-input-box .title {
+  font-size: 16px;
+  font-weight: bold
+}
 
 .input-box {
-  display: flex;
+  margin-top: 30px;
   flex-direction: column;
   gap: 25px;
 }
 
+
+
 .input-box input {
   width: 240px;
+}
+
+.buttons {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-around
+}
+
+.buttons button {
+  width: 60px;
+  height: 30px;
 }
 </style>

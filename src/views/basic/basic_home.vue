@@ -161,7 +161,7 @@ function colorize(amount: number): string {
   background-color: grey;
 }
 
-.diaglog-title {
+.title {
   font-size: 1.2em;
   font-weight: bold;
 }
