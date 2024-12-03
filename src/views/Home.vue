@@ -1,6 +1,6 @@
 <template>
   <Logo/>
-  <div class="home-page" v-if=rawStore.IsBasicMode>
+  <div class="home-page" v-if=commonStore.IsBasicMode>
     <BasicHomePage />
   </div>
   <div class="home-page" v-else>
@@ -15,7 +15,7 @@ import Logo from "@/components/logo.vue"
 import { onMounted } from "vue";
 import { useCommonStore } from "@/stores/common_store";
 
-const rawStore = useCommonStore();
+const commonStore = useCommonStore();
 </script>
 
 <style lang="css" scoped></style>

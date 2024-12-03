@@ -7,10 +7,10 @@ import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCommonStore } from './stores/common_store';
 const router = useRouter();
-const rawStore = useCommonStore();
+const commonStore = useCommonStore();
 
 onMounted(() => {
-  if (!rawStore.Logined()) {
+  if (!commonStore.Logined()) {
     router.replace("/login");
   }
 })

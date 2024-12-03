@@ -11,12 +11,12 @@ import { useRouter } from 'vue-router';
 import Logo from '@/components/logo.vue';
 import { useCommonStore } from '@/stores/common_store';
 
-const rawStore = useCommonStore();
+const commonStore = useCommonStore();
 const router = useRouter();
 
 function login() {
-  if(!rawStore.Logined()) {
-    rawStore.Login();
+  if(!commonStore.Logined()) {
+    commonStore.Login();
     router.replace("/");
   }
 }
