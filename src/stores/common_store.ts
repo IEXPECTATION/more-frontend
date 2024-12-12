@@ -1,3 +1,4 @@
+import { GetNetInstance } from "@/net/net_instance";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
@@ -6,15 +7,23 @@ export const useCommonStore = defineStore("CommonStore", () => {
   const basicMode = ref(false);
 
   function Logined() {
-    restoreToken();
     restoreMode();
+    restoreToken();
     return token.value != "";
   }
 
-  function Login() {
+  async function Login() {
     if (token.value == "") {
+      const instance = await GetNetInstance("fetch");
+      if(instance == undefined) {
+        throw new Error("Unknow Instance!");
+      }
+      const response = await instance.Login("http://127.0.0.1:5001/login", { name: "admin", passwd: "admin" })
+      if(!response) {
+        throw new Error("Login Error!");
+      }
+      
       token.value = "logined";
-      console.log("IsBasicMode", IsBasicMode);
       if (!IsBasicMode.value) {
         switchMode();
       }
@@ -24,12 +33,10 @@ export const useCommonStore = defineStore("CommonStore", () => {
   }
 
   function Logout() {
-    if (token.value == "") {
-      return;
+    if (token.value != "") {
+      token.value = "";
+      removeToken();
     }
-
-    token.value = "";
-    deleteToken();
   }
 
   function restoreToken() {
@@ -43,7 +50,7 @@ export const useCommonStore = defineStore("CommonStore", () => {
     localStorage.setItem('token', JSON.stringify(token.value));
   }
 
-  function deleteToken() {
+  function removeToken() {
     localStorage.removeItem('token');
   }
 
@@ -56,14 +63,14 @@ export const useCommonStore = defineStore("CommonStore", () => {
   }
 
   function restoreMode() {
-    let raw = localStorage.getItem('mode');
+    let raw = localStorage.getItem('basic');
     if (raw) {
       basicMode.value = JSON.parse(raw);
     }
   }
 
   function saveMode() {
-    localStorage.setItem('mode', JSON.stringify(basicMode.value));
+    localStorage.setItem('basic', JSON.stringify(basicMode.value));
   }
 
   return { Logined, Login, Logout, IsBasicMode };

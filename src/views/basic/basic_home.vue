@@ -1,14 +1,14 @@
 <template>
   <div class="card-container">
     <div v-for="item in items" :key="item.name" :class="item.class">
-      <p class="title" @click="popup(item.name)">{{ item.name }}</p>
       <template v-if="!item.name.includes('Egg')">
+        <p class="title" @click="popup(item.name)">{{ item.name }}</p>
         <p class="amount" :class="colorize(getAmount(item.name))" @click="popup(item.name)">{{
           getAmount(item.name) }}</p>
       </template>
       <template v-else>
-        <p class="amount" @click="popup(item.name)">{{
-          getAmount(item.name) }}</p>
+        <p class="title">{{ item.name }}</p>
+        <p class="amount">{{ getAmount(item.name) }}</p>
       </template>
 
       <div class="buttons">
@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import Diaglog from '@/components/basic/popup_diaglog.vue';
+import Diaglog from '@/components/basic/popup_window_handler.vue';
 import { useAmounts } from '@/stores/amounts';
 import { ref } from 'vue';
 

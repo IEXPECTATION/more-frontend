@@ -10,15 +10,20 @@
 import { useRouter } from 'vue-router';
 import Logo from '@/components/logo.vue';
 import { useCommonStore } from '@/stores/common_store';
+import { onMounted } from 'vue';
 
 const commonStore = useCommonStore();
 const router = useRouter();
 
-function login() {
-  if(!commonStore.Logined()) {
-    commonStore.Login();
+onMounted(() => {
+  if (commonStore.Logined()) {
     router.replace("/");
   }
+})
+
+function login() {
+  commonStore.Login();
+  router.replace("/");
 }
 </script>
 

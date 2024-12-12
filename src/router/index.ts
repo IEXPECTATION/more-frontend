@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/Home.vue'
-import Login from '@/views/Login.vue'
+import Login from '..//views/Login.vue'
+import NotFound from '../views/404.vue'
 import { useSoftwareMode } from '@/stores/software_mode';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+
     {
       path: '/',
       name: 'Home Page',
@@ -15,7 +17,12 @@ const router = createRouter({
       path: '/login',
       name: "Login Page",
       component: Login,
-    }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: "Not Found",
+      component: NotFound,
+    },
   ]
 })
 
