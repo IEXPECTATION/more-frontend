@@ -1,35 +1,31 @@
 <template>
   <div class="cash-container">
-  <p class="title">Update your Cash!</p>
-  <div class="input-box">
-    <input id="input-amount" type="number" ref="inputAmpunt" @keydown="pressKey" placeholder="Input your new Amount">
+    <p class="title">Update your Cash!</p>
+    <div class="input-box">
+      <input id="input-amount" type="number" ref="inputAmpunt" @keydown="pressKey" placeholder="Input your new Amount">
+    </div>
+    <div class="buttons">
+      <button @click="() => { update(); emit('event:cash'); }">Ok</button>
+      <button @click="() => { emit('event:cash'); }">Cannel</button>
+    </div>
   </div>
-  <div class="buttons">
-    <button @click="">Ok</button>
-    <button @click="">Cannel</button>
-  </div>
-</div>
 </template>
 
 <script setup lang="ts">
-import { onBeforeUpdate, onUpdated, useTemplateRef } from 'vue';
+import { onMounted, useTemplateRef } from 'vue';
 import { useAmounts } from '@/stores/amounts';
 
 const emit = defineEmits(['event:cash'])
 const inputRefs = useTemplateRef("inputAmpunt");
-
 const amountStore = useAmounts();
-let amount = 0;
 
-onBeforeUpdate(() => {
-  amount = amountStore.Get("Cash");
-})
-
-onUpdated(() => {
+onMounted(() => {
+  console.log("cash: updating!");
   inputRefs.value?.focus();
 })
 
 function update() {
+  let amount = amountStore.Get("Cash");
   let inputAmount = inputRefs.value?.value ?? '';
   if (inputAmount != '') {
     let currentAmount = parseInt(inputAmount, 10);
@@ -41,30 +37,27 @@ function update() {
 }
 
 function pressKey(event: KeyboardEvent) {
-  if(event.key != 'Enter' && event.key != 'Escape') {
+  if (event.key != 'Enter' && event.key != 'Escape') {
     return;
   }
-  
-  if(event.key == "Enter") {
+
+  if (event.key == "Enter") {
     update();
   }
 
   emit('event:cash')
 }
-
-/* 
-
-
-*/
 </script>
 
 <style lang="css" scoped>
 .cash-container {
   height: 100%;
   width: 100%;
+  padding: 20px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
 }
 
 .title {
@@ -72,19 +65,12 @@ function pressKey(event: KeyboardEvent) {
   font-weight: bold;
 }
 
-.input-box {
-  margin-top: 30px;
-  flex-direction: column;
-  gap: 25px;
-}
-
 .input-box input {
-  width: 200px;
+  width: 180px;
 }
 
 .buttons {
   width: 80%;
-  margin-top: 50px;
   display: flex;
   justify-content: space-around;
 }
@@ -93,5 +79,4 @@ function pressKey(event: KeyboardEvent) {
   width: 60px;
   height: 30px;
 }
-
 </style>

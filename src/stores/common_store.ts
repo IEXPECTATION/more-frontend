@@ -13,30 +13,26 @@ export const useCommonStore = defineStore("CommonStore", () => {
   }
 
   async function Login() {
-    if (token.value == "") {
-      const instance = await GetNetInstance("fetch");
-      if(instance == undefined) {
-        throw new Error("Unknow Instance!");
-      }
-      const response = await instance.Login("http://127.0.0.1:5001/login", { name: "admin", passwd: "admin" })
-      if(!response) {
-        throw new Error("Login Error!");
-      }
-      
-      token.value = "logined";
-      if (!IsBasicMode.value) {
-        switchMode();
-      }
-      saveMode();
-      saveToken();
+    // const instance = await GetNetInstance("fetch");
+    // if (instance == undefined) {
+    //   throw new Error("Unknow Instance!");
+    // }
+    // const response = await instance.Login("http://127.0.0.1:5001/login", { name: "admin", passwd: "admin" })
+    // if (!response) {
+    //   throw new Error("Login Error!");
+    // }
+
+    token.value = "logined";
+    if (!IsBasicMode.value) {
+      switchMode();
     }
+    saveMode();
+    saveToken();
   }
 
   function Logout() {
-    if (token.value != "") {
-      token.value = "";
-      removeToken();
-    }
+    token.value = "";
+    removeToken();
   }
 
   function restoreToken() {

@@ -18,6 +18,8 @@
     </div>
   </div>
 
+  <CashHandler />
+
   <Diaglog :visible="diaglogEnable" @update:visible="diaglogEnable = $event" :name="diaglogName" />
 
 </template>
@@ -26,6 +28,7 @@
 import Diaglog from '@/components/basic/popup_window_handler.vue';
 import { useAmounts } from '@/stores/amounts';
 import { ref } from 'vue';
+import CashHandler from '@/components/basic/cash_handler.vue';
 
 const amountStore = useAmounts();
 

@@ -21,8 +21,8 @@ onMounted(() => {
   }
 })
 
-function login() {
-  commonStore.Login();
+async function login() {
+  await commonStore.Login();
   router.replace("/");
 }
 </script>

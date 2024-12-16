@@ -12,7 +12,6 @@
 import BasicHomePage from "./basic/basic_home.vue"
 import AdvancedHomePage from "./advanced/advanced_home.vue"
 import Logo from "@/components/logo.vue"
-import { onMounted } from "vue";
 import { useCommonStore } from "@/stores/common_store";
 
 const commonStore = useCommonStore();
