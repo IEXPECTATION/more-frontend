@@ -1,15 +1,9 @@
 <template>
   <div class="card-container">
     <div v-for="item in items" :key="item.name" :class="item.class">
-      <template v-if="!item.name.includes('Egg')">
-        <p class="title" @click="popup(item.name)">{{ item.name }}</p>
-        <p class="amount" :class="colorize(getAmount(item.name))" @click="popup(item.name)">{{
-          getAmount(item.name) }}</p>
-      </template>
-      <template v-else>
-        <p class="title">{{ item.name }}</p>
-        <p class="amount">{{ getAmount(item.name) }}</p>
-      </template>
+      <p class="title" @click="popup(item.name)">{{ item.name }}</p>
+      <p class="amount" :class="colorize(getAmount(item.name))" @click="() => { popup(item.name) }">{{
+        getAmount(item.name) }}</p>
 
       <div class="buttons">
         <button class="plus-button">+</button>
@@ -18,28 +12,18 @@
     </div>
   </div>
 
-  <CashHandler />
-
-  <Diaglog :visible="diaglogEnable" @update:visible="diaglogEnable = $event" :name="diaglogName" />
+  <Diaglog :visible="diaglogVisible" @update:visible="diaglogVisible = $event" :name="diaglogName" />
 
 </template>
 
 <script setup lang="ts">
 import Diaglog from '@/components/basic/popup_window_handler.vue';
 import { useAmounts } from '@/stores/amounts';
-import { ref } from 'vue';
-import CashHandler from '@/components/basic/cash_handler.vue';
+import { provide, ref } from 'vue';
 
 const amountStore = useAmounts();
-
-function getAmount(name: string) {
-  try {
-    return amountStore.Get(name);
-  } catch (ex: unknown) {
-    return 0;
-  }
-}
-
+const diaglogVisible = ref(false);
+const diaglogName = ref("");
 const items = [
   {
     name: "Goose",
@@ -62,11 +46,18 @@ const items = [
     class: "box silver-egg",
   }];
 
-const diaglogEnable = ref(false);
-const diaglogName = ref("");
+provide("visible", diaglogVisible);
+
+function getAmount(name: string) {
+  try {
+    return amountStore.Get(name);
+  } catch (ex: unknown) {
+    return 0;
+  }
+}
 
 function popup(name: string) {
-  diaglogEnable.value = true;
+  diaglogVisible.value = true;
   diaglogName.value = name;
 }
 

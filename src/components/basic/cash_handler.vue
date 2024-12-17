@@ -1,27 +1,36 @@
 <template>
-  <div class="cash-container">
-    <p class="title">Update your Cash!</p>
-    <div class="input-box">
-      <input id="input-amount" type="number" ref="inputAmpunt" @keydown="pressKey" placeholder="Input your new Amount">
-    </div>
-    <div class="buttons">
-      <button @click="() => { update(); emit('event:cash'); }">Ok</button>
-      <button @click="() => { emit('event:cash'); }">Cannel</button>
+  <div class="handler-container" @click.stop>
+    <div class="cash-container">
+      <p class="title">Update your cash!</p>
+      <div class="input-box">
+        <input id="input-amount" type="number" ref="inputAmpunt" @keydown="pressKey" placeholder="Type your new Amount">
+      </div>
+      <div class="buttons">
+        <button @click="() => { update(); emit('event:cash'); }">Ok</button>
+        <button @click="() => { emit('event:cash'); }">Cannel</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, useTemplateRef } from 'vue';
+import { inject, useTemplateRef, watch, type Ref } from 'vue';
 import { useAmounts } from '@/stores/amounts';
 
 const emit = defineEmits(['event:cash'])
 const inputRefs = useTemplateRef("inputAmpunt");
 const amountStore = useAmounts();
 
-onMounted(() => {
-  console.log("cash: updating!");
-  inputRefs.value?.focus();
+const visible = inject('visible') as Ref<boolean, boolean>;
+
+watch(visible, async (newValue) => {
+  if (newValue) {
+    setTimeout(() => {
+      inputRefs.value?.focus();
+    }, 1);
+  } else {
+    inputRefs.value!.value = "";
+  }
 })
 
 function update() {
@@ -32,7 +41,6 @@ function update() {
     if (currentAmount != amount) {
       amountStore.Set("Cash", currentAmount);
     }
-    inputRefs.value!.value = "";
   }
 }
 
@@ -50,6 +58,13 @@ function pressKey(event: KeyboardEvent) {
 </script>
 
 <style lang="css" scoped>
+.handler-container {
+  background: white;
+  width: 20%;
+  height: 30%;
+  border-radius: 8px;
+}
+
 .cash-container {
   height: 100%;
   width: 100%;
