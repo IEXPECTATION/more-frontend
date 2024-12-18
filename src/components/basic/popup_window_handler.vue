@@ -2,12 +2,11 @@
   <div class="diaglog-container" v-show="props.visible" @click="close">
     <div class="diaglog-box">
       <template v-if="props.name == 'Cash'">
-        <Cash @event:cash="close()" />
+        <Cash @event:close="close" />
       </template>
 
       <template v-else-if="props.name == 'Dream Fund'">
-        <DreanFund @event:cash="close" />
-
+        <DreanFund @event:close="close" />
       </template>
 
       <template v-else-if="props.name == 'Goose'">

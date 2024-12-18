@@ -1,13 +1,13 @@
 <template>
-  <div class="handler-container" @click.stop>
+  <div class="window-container" @click.stop>
     <div class="cash-container">
       <p class="title">Update your cash!</p>
       <div class="input-box">
         <input id="input-amount" type="number" ref="inputAmpunt" @keydown="pressKey" placeholder="Type your new Amount">
       </div>
       <div class="buttons">
-        <button @click="() => { update(); emit('event:cash'); }">Ok</button>
-        <button @click="() => { emit('event:cash'); }">Cannel</button>
+        <button @click="() => { update(); emit('event:close'); }">Ok</button>
+        <button @click="() => { emit('event:close'); }">Cannel</button>
       </div>
     </div>
   </div>
@@ -17,7 +17,7 @@
 import { inject, useTemplateRef, watch, type Ref } from 'vue';
 import { useAmounts } from '@/stores/amounts';
 
-const emit = defineEmits(['event:cash'])
+const emit = defineEmits(['event:close'])
 const inputRefs = useTemplateRef("inputAmpunt");
 const amountStore = useAmounts();
 
@@ -53,12 +53,12 @@ function pressKey(event: KeyboardEvent) {
     update();
   }
 
-  emit('event:cash')
+  emit('event:close')
 }
 </script>
 
 <style lang="css" scoped>
-.handler-container {
+.window-container {
   background: white;
   width: 20%;
   height: 30%;
