@@ -1,9 +1,10 @@
 <template>
   <div class="card-container">
-    <div v-for="item in items" :key="item.name" :class="item.class">
+    <div v-for="(item, index) in items" :key="item.name" :class="item.class">
       <p class="title" @click="popup(item.name)">{{ item.name }}</p>
-      <p class="amount" :class="colorize(getAmount(item.name))" @click="() => { popup(item.name) }">{{
-        getAmount(item.name) }}</p>
+      <p class="amount" :class="index < 3 ? colorize(getAmount(item.name)) : ''"
+        @click="popup(item.name)">{{
+          getAmount(item.name) }}</p>
 
       <div class="buttons">
         <button class="plus-button">+</button>
