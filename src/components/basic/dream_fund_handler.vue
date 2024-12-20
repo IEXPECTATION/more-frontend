@@ -2,8 +2,21 @@
   <div class="window-container" @click.stop>
     <div class="dream-fund-container">
       <p class="title">Update your dream fund!</p>
-      <div class="dream-table">
-      </div>
+        <table class="dream-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Cost</th>
+              <th>Description</th>
+              <th>Completed</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
       <div class="buttons">
         <button @click="() => { emit('event:close'); }">Ok</button>
         <button @click="() => { emit('event:close'); }">Cannel</button>
@@ -39,7 +52,7 @@ const dreamItems: number[] = [1, 2, 3];
 }
 
 .title {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
 }
 
@@ -47,8 +60,6 @@ const dreamItems: number[] = [1, 2, 3];
   width: 80%;
   height: 60%;
   margin-right: 50px;
-  display: grid;
-  grid-template: repeat(5, 20px 1fr) / repeat(5, 20px 0);
 }
 
 

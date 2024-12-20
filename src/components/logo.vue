@@ -8,7 +8,7 @@
 <style scoped>
 p {
   position: absolute;
-  font-size: 1.4em;
+  font-size: 1.4rem;
   top: .5%;
   left: 1%;
   padding: 10px;

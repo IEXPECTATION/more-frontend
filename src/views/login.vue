@@ -1,8 +1,13 @@
 <template>
   <Logo />
-  <div class="login-box">
-    <h2>Login</h2>
-    <button @click="login">Login</button>
+  <div class="login-container">
+    <div class="login-box">
+      <h2>Login</h2>
+      <p class="sign-up">Sign up</p>
+      <p>Name</p>
+      <p>Password</p>
+      <button @click="login">Login</button>
+    </div>
   </div>
 </template>
 
@@ -28,9 +33,31 @@ async function login() {
 </script>
 
 <style lang="css" scoped>
+.login-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center
+}
+
 .login-box {
   height: 60%;
-  width: 40%;
+  width: 30%;
+  background-color: #fefefe;
   margin: auto;
+  padding: 50px 0;
+  position: relative;
+}
+
+.login-box h2 {
+  text-align: center;
+}
+
+.sign-up {
+  position: absolute;
+  top: 56px;
+  right: 10px;
+  color: #ccc;
+  cursor: pointer;
 }
 </style>

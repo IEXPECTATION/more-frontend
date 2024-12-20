@@ -99,7 +99,7 @@ function colorize(amount: number): string {
 }
 
 .box:hover .title {
-  font-size: 2em;
+  font-size: 2rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -110,12 +110,12 @@ function colorize(amount: number): string {
 }
 
 .box .title {
-  font-size: 1.5em;
+  font-size: 1.5rem;
   flex: 1;
 }
 
 .box .amount {
-  font-size: 1.2em;
+  font-size: 1.2rem;
   font-weight: bolder;
   cursor: pointer;
   flex: 1;

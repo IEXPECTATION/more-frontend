@@ -24,6 +24,6 @@ onMounted(() => {
 #app {
   width: 100vw;
   height: 100vh;
-  background-color: #FAFCFF;
+  background-color: #fafcff;
 }
 </style>

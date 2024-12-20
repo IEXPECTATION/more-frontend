@@ -76,7 +76,7 @@ function pressKey(event: KeyboardEvent) {
 }
 
 .title {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
 }
 
