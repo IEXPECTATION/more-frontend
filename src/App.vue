@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useCommonStore } from './stores/common_store';
+import { useCommonStore } from './stores/login';
 const router = useRouter();
 const commonStore = useCommonStore();
 

@@ -2,6 +2,7 @@
   <div class="window-container" @click.stop>
     <div class="dream-fund-container">
       <p class="title">Update your dream fund!</p>
+      <div class="dream-table-box">
         <table class="dream-table">
           <thead>
             <tr>
@@ -17,6 +18,10 @@
 
           </tbody>
         </table>
+        <button>Previous</button>
+        <button>Next</button>
+      </div>
+
       <div class="buttons">
         <button @click="() => { emit('event:close'); }">Ok</button>
         <button @click="() => { emit('event:close'); }">Cannel</button>
@@ -56,12 +61,16 @@ const dreamItems: number[] = [1, 2, 3];
   font-weight: bold;
 }
 
-.dream-table {
+.dream-table-box {
   width: 80%;
   height: 60%;
-  margin-right: 50px;
 }
 
+.dream-table {
+  width: 100%;
+  height: 80%;
+  margin-right: 50px;
+}
 
 .buttons {
   width: 80%;

@@ -13,14 +13,14 @@ export const useCommonStore = defineStore("CommonStore", () => {
   }
 
   async function Login() {
-    // const instance = await GetNetInstance("fetch");
-    // if (instance == undefined) {
-    //   throw new Error("Unknow Instance!");
-    // }
-    // const response = await instance.Login("http://127.0.0.1:5001/login", { name: "admin", passwd: "admin" })
-    // if (!response) {
-    //   throw new Error("Login Error!");
-    // }
+    const instance = await GetNetInstance("fetch");
+    if (instance == undefined) {
+      throw new Error("Unknow Instance!");
+    }
+    const ok = await instance.Login("http://127.0.0.1:5001/login", { name: "admin", passwd: "admin" })
+    if (!ok) {
+      throw new Error("Login Error!");
+    }
 
     token.value = "logined";
     if (!IsBasicMode.value) {

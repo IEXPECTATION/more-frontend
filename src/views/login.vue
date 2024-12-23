@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import Logo from '@/components/logo.vue';
-import { useCommonStore } from '@/stores/common_store';
+import { useCommonStore } from '@/stores/login';
 import { onMounted } from 'vue';
 
 const commonStore = useCommonStore();
