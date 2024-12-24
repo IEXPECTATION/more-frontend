@@ -4,11 +4,13 @@ export class FetchInstance implements NetInterface {
   async Login(url: string, user: any): Promise<boolean> {
     const abortController = new AbortController();
 
-    const cancelCallback = setTimeout(() => {
-      abortController.abort();
-    }, 3000);
+    const timeout = new Promise((_, reject: (reason?: any) => void) => {
+      setTimeout(() => {
+        reject(new Error("Request timed out"));
+      }, 3000);
+    })
 
-    const response = await fetch(url, {
+    const request = fetch(url, {
       method: "Post",
       headers: {
         'Content-Type': 'application/json'
@@ -16,21 +18,23 @@ export class FetchInstance implements NetInterface {
       body: JSON.stringify(user),
       signal: abortController.signal
     }).then((response: Response) => {
-      clearTimeout(cancelCallback);
-      return response;
-    }).catch((error: Error) => {
-      clearTimeout(cancelCallback);
-      console.log("Error:", error);
-      return null;
-    })
+      
+    });
 
-    console.log(response)
+    return await Promise.race([request, timeout])
+      .then(() => {
+        return true;
+      })
+      .catch((error: Error) => {
+        if (error.name === 'AbortError') {
+          console.log('Fetch aborted due to timeout');
+        } else {
+          console.error('Fetch error:', error.message);
+        }
 
-    if (response) {
-      return true;
-    }
-
-    return false;
+        abortController.abort();
+        return false;
+      })
   }
 
 

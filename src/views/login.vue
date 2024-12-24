@@ -3,10 +3,17 @@
   <div class="login-container">
     <div class="login-box">
       <h2>Login</h2>
-      <p class="sign-up">Sign up</p>
+      <p class="signup">Sign up</p>
       <p>Name</p>
       <p>Password</p>
       <button @click="login">Login</button>
+    </div>
+    <div class="signup-box" style="display: none">
+      <h2>Sign up</h2>
+      <p class="signup">Login</p>
+      <p>Name</p>
+      <p>Password</p>
+      <button @click="login">Sign up</button>
     </div>
   </div>
 </template>
@@ -53,11 +60,12 @@ async function login() {
   text-align: center;
 }
 
-.sign-up {
+.signup {
   position: absolute;
-  top: 56px;
-  right: 10px;
-  color: #ccc;
+  top: 65px;
+  right: 30px;
+  color: #808080;
   cursor: pointer;
+  font-size: 0.875rem;
 }
 </style>
