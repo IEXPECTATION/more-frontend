@@ -21,7 +21,7 @@ export class FetchInstance implements NetInterface {
       
     });
 
-    return await Promise.race([request, timeout])
+    return Promise.race([request, timeout])
       .then(() => {
         return true;
       })
@@ -31,7 +31,6 @@ export class FetchInstance implements NetInterface {
         } else {
           console.error('Fetch error:', error.message);
         }
-
         abortController.abort();
         return false;
       })
