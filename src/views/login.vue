@@ -36,7 +36,7 @@ onMounted(() => {
 async function login() {
   let name = btoa("admin");
   let password = btoa("admin")
-  await commonStore.Login({name, password});
+  await commonStore.Login({ name, password });
   router.replace("/");
 }
 </script>
@@ -49,13 +49,25 @@ async function login() {
   justify-content: center
 }
 
-.login-box {
+.login-box,
+.signup-box {
   height: 60%;
   width: 30%;
-  background-color: #fefefe;
+  background-color: #fffeff;
   margin: auto;
   padding: 50px 0;
   position: relative;
+  box-shadow: 1px 1px 8px 5px #ccc;
+  transition: transform 3s;
+  backface-visibility: hidden;
+}
+
+.signup-box {
+  transform: rotate(-180deg);
+}
+
+.flipped {
+  transform: rotateY(-180deg);
 }
 
 .login-box h2 {
