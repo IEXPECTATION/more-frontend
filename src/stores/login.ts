@@ -12,12 +12,12 @@ export const useCommonStore = defineStore("CommonStore", () => {
     return token.value != "";
   }
 
-  async function Login() {
+  async function Login(user: any) {
     const instance = await GetNetInstance("fetch");
     if (instance == undefined) {
       throw new Error("Unknow Instance!");
     }
-    const ok = await instance.Login("http://127.0.0.1:5001/login", { name: "admin", passwd: "admin" })
+    const ok = await instance.Login("http://127.0.0.1:5001/login", user)
     if (!ok) {
       throw new Error("Login Error!");
     }

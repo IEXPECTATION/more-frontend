@@ -34,7 +34,9 @@ onMounted(() => {
 })
 
 async function login() {
-  await commonStore.Login();
+  let name = btoa("admin");
+  let password = btoa("admin")
+  await commonStore.Login({name, password});
   router.replace("/");
 }
 </script>
