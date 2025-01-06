@@ -96,6 +96,7 @@ function colorize(amount: number): string {
   display: flex;
   flex-direction: column;
   background-color: #fffeff;
+  border-radius: 10px;
 }
 
 .box:hover .title {

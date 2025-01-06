@@ -1,17 +1,17 @@
 <template>
   <Logo />
   <div class="container">
-    <div class="box">
+    <div class="box" :class="flipped ? 'flipped' : ''">
       <div class="login">
         <h2>Login</h2>
-        <p class="signup-switch">Sign up</p>
+        <p class="signup-switch" @click="flipped = !flipped">Sign up</p>
         <p>Name</p>
         <p>Password</p>
         <button @click="login">Login</button>
       </div>
       <div class="signup">
         <h2>Sign up</h2>
-        <p class="login-switch">Login</p>
+        <p class="login-switch" @click="flipped = !flipped">Login</p>
         <p>Name</p>
         <p>Password</p>
         <button @click="login">Sign up</button>
@@ -24,11 +24,12 @@
 import { useRouter } from 'vue-router';
 import Logo from '@/components/logo.vue';
 import { useCommonStore } from '@/stores/login';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const commonStore = useCommonStore();
 const router = useRouter();
 
+const flipped = ref(false);
 onMounted(() => {
   if (commonStore.Logined()) {
     router.replace("/");
