@@ -25,7 +25,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import Cash from "./cash_handler.vue";
 import DreanFund from './dream_fund_handler.vue';
 

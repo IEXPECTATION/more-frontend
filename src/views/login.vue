@@ -1,19 +1,21 @@
 <template>
   <Logo />
-  <div class="login-container">
-    <div class="login-box">
-      <h2>Login</h2>
-      <p class="signup">Sign up</p>
-      <p>Name</p>
-      <p>Password</p>
-      <button @click="login">Login</button>
-    </div>
-    <div class="signup-box" style="display: none">
-      <h2>Sign up</h2>
-      <p class="signup">Login</p>
-      <p>Name</p>
-      <p>Password</p>
-      <button @click="login">Sign up</button>
+  <div class="container">
+    <div class="box">
+      <div class="login">
+        <h2>Login</h2>
+        <p class="signup-switch">Sign up</p>
+        <p>Name</p>
+        <p>Password</p>
+        <button @click="login">Login</button>
+      </div>
+      <div class="signup">
+        <h2>Sign up</h2>
+        <p class="login-switch">Login</p>
+        <p>Name</p>
+        <p>Password</p>
+        <button @click="login">Sign up</button>
+      </div>
     </div>
   </div>
 </template>
@@ -42,44 +44,54 @@ async function login() {
 </script>
 
 <style lang="css" scoped>
-.login-container {
-  display: flex;
+.container {
   width: 100%;
   height: 100%;
-  justify-content: center
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
 }
 
-.login-box,
-.signup-box {
+.box {
+  width: 40%;
   height: 60%;
-  width: 30%;
-  background-color: #fffeff;
   margin: auto;
-  padding: 50px 0;
   position: relative;
-  box-shadow: 1px 1px 8px 5px #ccc;
-  transition: transform 3s;
-  backface-visibility: hidden;
+  border-radius: 10px;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.signup-box {
-  transform: rotate(-180deg);
+.login,
+.signup {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  overflow: hidden;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fffeff;
+}
+
+.signup {
+  transform: rotateY(-180deg);
 }
 
 .flipped {
   transform: rotateY(-180deg);
 }
 
-.login-box h2 {
-  text-align: center;
-}
-
-.signup {
+/* .signup {
   position: absolute;
   top: 65px;
   right: 30px;
   color: #808080;
   cursor: pointer;
   font-size: 0.875rem;
-}
+} */
 </style>
