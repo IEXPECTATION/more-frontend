@@ -1,39 +1,48 @@
 import type { NetInterface } from "../net_instance";
 
 export class FetchInstance implements NetInterface {
-  async Login(url: string, user: any): Promise<boolean> {
+  async post(url: string, options: RequestInit = {}, timeout: number = 3000) {
     const abortController = new AbortController();
 
-    const timeout = new Promise((_, reject: (reason?: any) => void) => {
-      setTimeout(() => {
-        reject(new Error("Request timed out"));
-      }, 3000);
-    })
+    const timeoutId = setTimeout(() => {
+      abortController.abort();
+    }, timeout);
 
-    const request = fetch(url, {
+    return fetch(url, {
       method: "Post",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user),
+      ...options,
       signal: abortController.signal
     }).then((response: Response) => {
-      
-    });
+      // callback(response);
+      return response;
+    }).catch((error: Error) => {
+      clearTimeout(timeoutId);
+      if (error.name === "AbortError") {
+        throw new Error("Timeout");
+      } else {
+        throw error;
+      }
+    })
+  }
 
-    return Promise.race([request, timeout])
-      .then(() => {
+  async Login(url: string, user: any): Promise<boolean> {
+    return this.post(url, { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) })
+      .then((response: Response) => {
         return true;
       })
       .catch((error: Error) => {
-        if (error.name === 'AbortError') {
-          console.log('Fetch aborted due to timeout');
-        } else {
-          console.error('Fetch error:', error.message);
-        }
-        abortController.abort();
         return false;
+      });
+  }
+
+  async Signup(url: string, user: any) {
+    return this.post(url, { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) })
+      .then((response: Response) => {
+        return true;
       })
+      .catch((error: Error) => {
+        return false;
+      });
   }
 
 

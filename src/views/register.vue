@@ -4,14 +4,15 @@
     <div class="box" :class="flipped ? 'flipped' : ''">
       <div class="login">
         <h2>Login</h2>
-        <p class="signup-switch" @click="flipped = !flipped">Sign up</p>
+        <p class="switch" @click="flipped = !flipped">Sign up</p>
+        <input type="text" name="" id="">
         <p>Name</p>
         <p>Password</p>
         <button @click="login">Login</button>
       </div>
       <div class="signup">
         <h2>Sign up</h2>
-        <p class="login-switch" @click="flipped = !flipped">Login</p>
+        <p class="switch" @click="flipped = !flipped">Login</p>
         <p>Name</p>
         <p>Password</p>
         <button @click="login">Sign up</button>
@@ -55,12 +56,12 @@ async function login() {
 }
 
 .box {
-  width: 40%;
+  width: 25%;
   height: 60%;
   margin: auto;
   position: relative;
   border-radius: 10px;
-  transition: transform 0.8s;
+  transition: transform 0.5s;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -75,6 +76,7 @@ async function login() {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
   background-color: #fffeff;
 }
@@ -85,6 +87,15 @@ async function login() {
 
 .flipped {
   transform: rotateY(-180deg);
+}
+
+.switch {
+  position: absolute;
+  top: 65px;
+  right: 30px;
+  font-size: 0.875rem;
+  color: #808080;
+  cursor: pointer;
 }
 
 /* .signup {

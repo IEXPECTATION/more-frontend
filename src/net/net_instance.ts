@@ -4,7 +4,7 @@ export interface NetInterface {
   Login(url: string, user: any): Promise<boolean>;
 }
 
-export async function GetNetInstance(name: "fetch" | "axios") {
+export async function GetNetInstance(name: "fetch" | "axios"): Promise<NetInterface | undefined> {
   switch (name) {
     case "fetch":
       return FetchInstance.Instance();
