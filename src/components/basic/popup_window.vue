@@ -1,33 +1,12 @@
 <template>
   <div class="diaglog-container" v-show="props.visible" @click="close">
-    <div class="diaglog-box">
-      <template v-if="props.name == 'Cash'">
-        <Cash @event:close="close" />
-      </template>
-
-      <template v-else-if="props.name == 'Dream Fund'">
-        <DreanFund @event:close="close" />
-      </template>
-
-      <template v-else-if="props.name == 'Goose'">
-        <p class="title">Goose</p>
-      </template>
-
-      <template v-else-if="props.name == 'Goldren Egg'">
-        <p class="title">Goldren Egg</p>
-      </template>
-
-      <template v-else-if="props.name == 'Silver Egg'">
-        <p class="title">Silver Egg</p>
-      </template>
+    <div class="diaglog-box" @event:close="close">
+      <slot></slot>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Cash from "./cash_handler.vue";
-import DreanFund from './dream_fund_handler.vue';
-
 const props = defineProps(["visible", "name"]);
 const emit = defineEmits(['update:visible']);
 

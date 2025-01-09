@@ -6,15 +6,15 @@
         <input id="input-amount" type="number" ref="inputAmpunt" @keydown="pressKey" placeholder="Type your new Amount">
       </div>
       <div class="buttons">
-        <button @click="() => { update(); emit('event:close'); }">Ok</button>
-        <button @click="() => { emit('event:close'); }">Cannel</button>
+        <button @click="() => { update(); emit('event:close', false);; }">Ok</button>
+        <button @click="() => { emit('event:close', false); }">Cannel</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject, useTemplateRef, watch, type Ref } from 'vue';
+import { inject, nextTick, useTemplateRef, watch, type Ref } from 'vue';
 import { useAmounts } from '@/stores/amounts';
 
 const emit = defineEmits(['event:close'])
@@ -25,13 +25,12 @@ const visible = inject('visible') as Ref<boolean, boolean>;
 
 watch(visible, async (newValue) => {
   if (newValue) {
-    setTimeout(() => {
+    nextTick(async () => {
       inputRefs.value?.focus();
-    }, 1);
-  } else {
-    inputRefs.value!.value = "";
+      inputRefs.value!.value = "";
+    })
   }
-})
+});
 
 function update() {
   let amount = amountStore.Get("Cash");
@@ -53,7 +52,7 @@ function pressKey(event: KeyboardEvent) {
     update();
   }
 
-  emit('event:close')
+  emit('event:close', false)
 }
 </script>
 

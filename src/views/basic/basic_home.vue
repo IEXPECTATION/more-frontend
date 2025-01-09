@@ -2,9 +2,8 @@
   <div class="card-container">
     <div v-for="(item, index) in items" :key="item.name" :class="item.class">
       <p class="title" @click="popup(item.name)">{{ item.name }}</p>
-      <p class="amount" :class="index < 3 ? colorize(getAmount(item.name)) : ''"
-        @click="popup(item.name)">{{
-          getAmount(item.name) }}</p>
+      <p class="amount" :class="index < 3 ? colorize(getAmount(item.name)) : ''" @click="popup(item.name)">{{
+        getAmount(item.name) }}</p>
 
       <div class="buttons">
         <button class="plus-button">+</button>
@@ -13,12 +12,35 @@
     </div>
   </div>
 
-  <Diaglog :visible="diaglogVisible" @update:visible="diaglogVisible = $event" :name="diaglogName" />
+  <PopupWindow :visible="diaglogVisible" @update:visible="diaglogVisible = $event">
+    <template v-if="diaglogName == 'Cash'">
+      <Cash @event:close="diaglogVisible = $event" />
+    </template>
+
+    <template v-else-if="diaglogName == 'Dream Fund'">
+      <DreamFund @event:close="diaglogVisible = $event" />
+    </template>
+
+    <template v-else-if="diaglogName == 'Goose'">
+      <p class="title" @event:close="diaglogVisible = $event">Goose</p>
+    </template>
+
+    <template v-else-if="diaglogName == 'Goldren Egg'">
+      <p class="title" @event:close="diaglogVisible = $event">Goldren Egg</p>
+    </template>
+
+    <template v-else-if="diaglogName == 'Silver Egg'">
+      <p class="title" @event:close="diaglogVisible = $event">Silver Egg</p>
+    </template>
+
+  </PopupWindow>
 
 </template>
 
 <script setup lang="ts">
-import Diaglog from '@/components/basic/popup_window_handler.vue';
+import PopupWindow from '@/components/basic/popup_window.vue';
+import Cash from '@/components/basic/cash_popup_window.vue'
+import DreamFund from '@/components/basic/dream_fund_popup_window.vue'
 import { useAmounts } from '@/stores/amounts';
 import { provide, ref } from 'vue';
 

@@ -23,8 +23,8 @@
       </div>
 
       <div class="buttons">
-        <button @click="() => { emit('event:close'); }">Ok</button>
-        <button @click="() => { emit('event:close'); }">Cannel</button>
+        <button @click="() => { emit('event:close', false); }">Ok</button>
+        <button @click="() => { emit('event:close', false); }">Cannel</button>
       </div>
     </div>
   </div>
