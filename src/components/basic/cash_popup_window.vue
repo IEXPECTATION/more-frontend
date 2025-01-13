@@ -6,8 +6,8 @@
         <input id="input-amount" type="number" ref="inputAmpunt" @keydown="pressKey" placeholder="Type your new Amount">
       </div>
       <div class="buttons">
-        <button @click="() => { update(); emit('event:close', false);; }">Ok</button>
-        <button @click="() => { emit('event:close', false); }">Cannel</button>
+        <button @click="async () => { update(); emit('event:close', false); }">Ok</button>
+        <button @click="async () => { emit('event:close', false); }">Cannel</button>
       </div>
     </div>
   </div>

@@ -1,3 +1,4 @@
+import type { User } from "@/dao/user";
 import { GetNetInstance } from "@/net/net_instance";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
@@ -12,14 +13,32 @@ export const useCommonStore = defineStore("CommonStore", () => {
     return token.value != "";
   }
 
-  async function Login(user: any) {
+  async function Login(user: User) {
     const instance = await GetNetInstance("fetch");
     if (instance == undefined) {
       throw new Error("Unknow Instance!");
     }
-    const ok = await instance.Login("http://127.0.0.1:5001/login", user)
+    const ok = await instance.Login("http://localhost:5001/login", user)
     if (!ok) {
       throw new Error("Login Error!");
+    }
+
+    token.value = "logined";
+    if (!IsBasicMode.value) {
+      switchMode();
+    }
+    saveMode();
+    saveToken();
+  }
+
+  async function Signup(user: User) {
+    const instance = await GetNetInstance("fetch");
+    if (instance == undefined) {
+      throw new Error("Unknow Instance!");
+    }
+    const ok = await instance.Signup("http://localhost:5001/signup", user)
+    if (!ok) {
+      throw new Error("Signup Error!");
     }
 
     token.value = "logined";
@@ -69,5 +88,5 @@ export const useCommonStore = defineStore("CommonStore", () => {
     localStorage.setItem('basic', JSON.stringify(basicMode.value));
   }
 
-  return { Logined, Login, Logout, IsBasicMode };
+  return { Logined, Login, Logout, Signup, IsBasicMode };
 })

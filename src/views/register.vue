@@ -4,18 +4,33 @@
     <div class="box" :class="flipped ? 'flipped' : ''">
       <div class="login">
         <h2>Login</h2>
-        <p class="switch" @click="flipped = !flipped">Sign up</p>
-        <input type="text" name="" id="">
-        <p>Name</p>
-        <p>Password</p>
+        <p class="switch" @click="flip">Sign up</p>
+        <div class="input-container">
+          <div class="user-name">
+            <p>User name</p>
+            <input type="text" name="" id="" ref="loginNameInput">
+          </div>
+          <div class="user-password">
+            <p>Password</p>
+            <input type="password" name="" id="" ref="loginPasswordInput">
+          </div>
+        </div>
         <button @click="login">Login</button>
       </div>
       <div class="signup">
         <h2>Sign up</h2>
-        <p class="switch" @click="flipped = !flipped">Login</p>
-        <p>Name</p>
-        <p>Password</p>
-        <button @click="login">Sign up</button>
+        <p class="switch" @click="flip">Log in</p>
+        <div class="input-container">
+          <div class="user-name">
+            <p>User name</p>
+            <input type="text" name="" id="" ref="signupNameInput">
+          </div>
+          <div class="user-password">
+            <p>Password</p>
+            <input type="password" name="" id="" ref="signupPasswordInput">
+          </div>
+        </div>
+        <button @click="signup">Sign up</button>
       </div>
     </div>
   </div>
@@ -24,11 +39,16 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import Logo from '@/components/logo.vue';
-import { useCommonStore } from '@/stores/login';
-import { onMounted, ref } from 'vue';
+import { useCommonStore } from '@/stores/regester';
+import { nextTick, onMounted, ref, useTemplateRef } from 'vue';
+import type { User } from "@/dao/user";
 
 const commonStore = useCommonStore();
 const router = useRouter();
+const loginNameInput = useTemplateRef("loginNameInput");
+const loginPasswordInput = useTemplateRef("loginPasswordInput");
+const signupNameInput = useTemplateRef("signupNameInput");
+const signupPasswordInput = useTemplateRef("signupPasswordInput");
 
 const flipped = ref(false);
 onMounted(() => {
@@ -37,10 +57,81 @@ onMounted(() => {
   }
 })
 
-async function login() {
-  let name = btoa("admin");
-  let password = btoa("admin")
-  await commonStore.Login({ name, password });
+
+async function flip(_: MouseEvent) {
+  flipped.value = !flipped.value;
+
+  nextTick(async () => {
+    if (flipped.value) {
+      if (signupNameInput.value) {
+        signupNameInput.value.value = "";
+      }
+      if (signupPasswordInput.value) {
+        signupPasswordInput.value.value = "";
+      }
+    } else {
+      if (loginNameInput.value) {
+        loginNameInput.value.value = "";
+      }
+      if (loginPasswordInput.value) {
+        loginPasswordInput.value.value = "";
+      }
+    }
+  })
+}
+
+async function login(_: MouseEvent) {
+  console.assert(!flipped.value);
+  const name = loginNameInput.value?.value ?? "";
+  if (name == "") {
+    return;
+  }
+
+  const password = loginPasswordInput.value?.value ?? "";
+  if (password == "") {
+    return;
+  }
+
+  const user: User = {
+    PeopleId: 0,
+    Name: atob(name),
+    Password: atob(password),
+  };
+
+  try {
+    await commonStore.Login(user);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log(error.name, error.message);
+    }
+    return;
+  }
+  router.replace("/");
+}
+
+async function signup(_: MouseEvent) {
+  console.assert(flipped.value);
+
+  console.log("Signup Starting...")
+
+  const name = signupNameInput.value?.value ?? "";
+  if (name == "") {
+    return;
+  }
+  console.log("Name is", name);
+
+  const password = signupPasswordInput.value?.value ?? "";
+  if (password == "") {
+    return;
+  }
+  console.log("Password is", name);
+
+  const user: User = {
+    Name: btoa(name),
+    Password: btoa(password),
+  };
+
+  await commonStore.Signup(user);
   router.replace("/");
 }
 </script>
@@ -57,11 +148,11 @@ async function login() {
 
 .box {
   width: 25%;
-  height: 60%;
+  height: 40%;
   margin: auto;
   position: relative;
   border-radius: 10px;
-  transition: transform 0.5s;
+  transition: transform 0.8s;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -74,11 +165,15 @@ async function login() {
   backface-visibility: hidden;
   overflow: hidden;
   border-radius: 10px;
+  background-color: #fffeff;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
-  background-color: #fffeff;
+  justify-content: space-around;
+}
+
+.user-password {
+  margin-top: 5%;
 }
 
 .signup {
@@ -97,13 +192,4 @@ async function login() {
   color: #808080;
   cursor: pointer;
 }
-
-/* .signup {
-  position: absolute;
-  top: 65px;
-  right: 30px;
-  color: #808080;
-  cursor: pointer;
-  font-size: 0.875rem;
-} */
 </style>

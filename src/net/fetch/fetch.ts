@@ -1,3 +1,4 @@
+import type { User } from "@/dao/user";
 import type { NetInterface } from "../net_instance";
 
 export class FetchInstance implements NetInterface {
@@ -13,7 +14,6 @@ export class FetchInstance implements NetInterface {
       ...options,
       signal: abortController.signal
     }).then((response: Response) => {
-      // callback(response);
       return response;
     }).catch((error: Error) => {
       clearTimeout(timeoutId);
@@ -25,7 +25,7 @@ export class FetchInstance implements NetInterface {
     })
   }
 
-  async Login(url: string, user: any): Promise<boolean> {
+  async Login(url: string, user: User): Promise<boolean> {
     return this.post(url, { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) })
       .then((response: Response) => {
         return true;
@@ -35,8 +35,8 @@ export class FetchInstance implements NetInterface {
       });
   }
 
-  async Signup(url: string, user: any) {
-    return this.post(url, { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) })
+  async Signup(url: string, user: User) {
+    return this.post(url, { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) }, 20000)
       .then((response: Response) => {
         return true;
       })
