@@ -11,7 +11,7 @@ const commonStore = useCommonStore();
 
 onMounted(() => {
   if (!commonStore.Logined()) {
-    router.replace("/login");
+    router.push("/login");
   }
 })
 </script>

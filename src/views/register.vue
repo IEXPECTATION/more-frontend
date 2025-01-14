@@ -53,7 +53,7 @@ const signupPasswordInput = useTemplateRef("signupPasswordInput");
 const flipped = ref(false);
 onMounted(() => {
   if (commonStore.Logined()) {
-    router.replace("/");
+    router.push("/");
   }
 })
 
@@ -94,8 +94,8 @@ async function login(_: MouseEvent) {
 
   const user: User = {
     PeopleId: 0,
-    Name: atob(name),
-    Password: atob(password),
+    Name: btoa(name),
+    Password: btoa(password),
   };
 
   try {
@@ -106,33 +106,35 @@ async function login(_: MouseEvent) {
     }
     return;
   }
-  router.replace("/");
+  router.push("/");
 }
 
 async function signup(_: MouseEvent) {
   console.assert(flipped.value);
-
-  console.log("Signup Starting...")
-
   const name = signupNameInput.value?.value ?? "";
   if (name == "") {
     return;
   }
-  console.log("Name is", name);
 
   const password = signupPasswordInput.value?.value ?? "";
   if (password == "") {
     return;
   }
-  console.log("Password is", name);
 
   const user: User = {
     Name: btoa(name),
     Password: btoa(password),
   };
 
-  await commonStore.Signup(user);
-  router.replace("/");
+  try {
+    await commonStore.Signup(user);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log(error.name, error.message);
+    }
+    return;
+  }
+  router.push("/");
 }
 </script>
 
