@@ -14,7 +14,7 @@ export const useCommonStore = defineStore("CommonStore", () => {
   }
 
   async function Login(user: User) {
-    const instance = await GetNetInstance("fetch");
+    const instance = GetNetInstance("fetch");
     if (instance == undefined) {
       throw new Error("Unknow Instance!");
     }
@@ -32,7 +32,7 @@ export const useCommonStore = defineStore("CommonStore", () => {
   }
 
   async function Signup(user: User) {
-    const instance = await GetNetInstance("fetch");
+    const instance = GetNetInstance("fetch");
     if (instance == undefined) {
       throw new Error("Unknow Instance!");
     }

@@ -35,8 +35,8 @@ export class FetchInstance implements NetInterface {
       });
   }
 
-  async Signup(url: string, user: User) {
-    return this.post(url, { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) }, 20000)
+  async Signup(url: string, user: User): Promise<boolean> {
+    return this.post(url, { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) })
       .then((response: Response) => {
         return true;
       })
@@ -44,7 +44,6 @@ export class FetchInstance implements NetInterface {
         return false;
       });
   }
-
 
   static Instance() {
     return FetchInstance.instance;

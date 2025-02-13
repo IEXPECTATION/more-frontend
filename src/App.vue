@@ -5,13 +5,16 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useCommonStore } from './stores/regester';
+import { initStore, useUserStore } from './stores';
+
 const router = useRouter();
-const commonStore = useCommonStore();
+const userStore = useUserStore();
 
 onMounted(() => {
-  if (!commonStore.Logined()) {
-    router.push("/login");
+  initStore();
+
+  if (!userStore.IsLogined()) {
+    router.replace("/login");
   }
 })
 </script>

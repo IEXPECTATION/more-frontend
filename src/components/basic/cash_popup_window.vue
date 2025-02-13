@@ -20,7 +20,6 @@ import { useAmounts } from '@/stores/amounts';
 const emit = defineEmits(['event:close'])
 const inputRefs = useTemplateRef("inputAmpunt");
 const amountStore = useAmounts();
-
 const visible = inject('visible') as Ref<boolean, boolean>;
 
 watch(visible, async (newValue) => {
