@@ -15,7 +15,7 @@
             <input type="password" name="" id="" ref="loginPasswordInput">
           </div>
         </div>
-        <button @click="login">Login</button>
+        <button :disabled="ongoing" @click="login">Login</button>
       </div>
       <div class="signup">
         <h2>Sign up</h2>
@@ -42,21 +42,24 @@ import Logo from '@/components/logo.vue';
 import { useCommonStore } from '@/stores/regester';
 import { nextTick, onMounted, ref, useTemplateRef } from 'vue';
 import type { User } from "@/dao/user";
+import { useUserStore } from '@/stores';
+import { Login } from '@/service/login';
 
+const ongoing = ref(false);
 const commonStore = useCommonStore();
+const userStore = useUserStore();
 const router = useRouter();
 const loginNameInput = useTemplateRef("loginNameInput");
 const loginPasswordInput = useTemplateRef("loginPasswordInput");
 const signupNameInput = useTemplateRef("signupNameInput");
 const signupPasswordInput = useTemplateRef("signupPasswordInput");
-
 const flipped = ref(false);
+
 onMounted(() => {
-  if (commonStore.Logined()) {
+  if (userStore.IsLogined()) {
     router.push("/");
   }
 })
-
 
 async function flip(_: MouseEvent) {
   flipped.value = !flipped.value;
@@ -82,6 +85,8 @@ async function flip(_: MouseEvent) {
 
 async function login(_: MouseEvent) {
   console.assert(!flipped.value);
+
+  ongoing.value = true;
   const name = loginNameInput.value?.value ?? "";
   if (name == "") {
     return;
@@ -98,15 +103,12 @@ async function login(_: MouseEvent) {
     Password: btoa(password),
   };
 
-  try {
-    await commonStore.Login(user);
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.log(error.name, error.message);
-    }
-    return;
+  const ok = await Login(user);
+  if (ok) {
+    router.push("/");
   }
-  router.push("/");
+
+  ongoing.value = false;
 }
 
 async function signup(_: MouseEvent) {

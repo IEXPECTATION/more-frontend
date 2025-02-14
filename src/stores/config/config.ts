@@ -21,9 +21,14 @@ export const useConfigStore = defineStore("ConfigStore", () => {
   function InitConfigStore() {
     mode.value = getMode();
 
+    // Default mode is basic.
     if (mode.value == "") {
       mode.value = "basic";
     }
+  }
+
+  function IsBasicMode() {
+    return mode.value == "basic";
   }
 
   function AddMode(mode: "basic" | "advanced") {
@@ -34,5 +39,5 @@ export const useConfigStore = defineStore("ConfigStore", () => {
     delMode();
   }
 
-  return { InitConfigStore, AddMode, RemoveMode };
-})
+  return { InitConfigStore, IsBasicMode, AddMode, RemoveMode };
+});

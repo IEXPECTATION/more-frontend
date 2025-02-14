@@ -26,11 +26,7 @@ export const useUserStore = defineStore("UserStore", () => {
   }
 
   function IsLogined(): boolean {
-    if (token.value == "") {
-      return false;
-    }
-
-    return true;
+    return token.value != "";
   }
 
   function AddToken(token: string) {
@@ -42,4 +38,4 @@ export const useUserStore = defineStore("UserStore", () => {
   }
 
   return { InitUserSotre, IsLogined, AddToken, RemoveToken };
-})
+});
