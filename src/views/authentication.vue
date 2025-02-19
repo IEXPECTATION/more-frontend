@@ -99,8 +99,8 @@ async function login(_: MouseEvent) {
 
   const user: User = {
     PeopleId: 0,
-    Name: btoa(name),
-    Password: btoa(password),
+    Name: name,
+    Password: password,
   };
 
   const ok = await Login(user);
@@ -124,8 +124,8 @@ async function signup(_: MouseEvent) {
   }
 
   const user: User = {
-    Name: btoa(name),
-    Password: btoa(password),
+    Name: name,
+    Password: password,
   };
 
   try {
