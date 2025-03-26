@@ -1,13 +1,14 @@
 import type { User } from "@/dao/user";
 import { FetchInstance } from "./fetch/fetch";
 import { AxiosInstance } from "./axios/axios";
+import type { CardEnum } from "@/stores";
 
 export interface NetInterface {
   Login(url: string, user: User): Promise<Response>;
   Signup(url: string, user: User): Promise<Response>;
 
   GetAllCardsData(url: string): Promise<void>;
-  SetAllCardsData(url: string): Promise<void>;
+  SetAllCardsData(url: string, ...datas: number[]): Promise<void>;
   GetTargetCardData(url: string, name: string): Promise<void>;
   SetTargetCardData(url: string, name: string, amount: number): Promise<void>;
 }
