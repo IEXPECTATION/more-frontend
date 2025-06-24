@@ -1,14 +1,9 @@
 <template>
   <div class="card-container">
-    <div v-for="(item, index) in items" :key="item.name" :class="item.class">
+    <div v-for="(item, index) in cards" :key="item.name" :class="item.class">
       <p class="title" @click="popup(item.name)">{{ item.name }}</p>
       <p class="amount" :class="index < 3 ? colorize(getAmount(item.name)) : ''" @click="popup(item.name)">{{
         getAmount(item.name) }}</p>
-
-      <div class="buttons">
-        <button class="plus-button">+</button>
-        <button class="minus-button">-</button>
-      </div>
     </div>
   </div>
 
@@ -47,7 +42,7 @@ import { provide, ref } from 'vue';
 const amountStore = useAmounts();
 const diaglogVisible = ref(false);
 const diaglogName = ref("");
-const items = [
+const cards = [
   {
     name: "Goose",
     class: "box goose",
@@ -113,8 +108,7 @@ function colorize(amount: number): string {
 }
 
 .box {
-  background-color: #fefefe;
-  box-shadow: 1px 1px 8px 0px #f0f0f0;
+  box-shadow: 1px 1px 8px 0px #aaa;
   display: flex;
   flex-direction: column;
   background-color: #fffeff;
@@ -150,33 +144,6 @@ function colorize(amount: number): string {
 
 .silver-egg p {
   color: silver;
-}
-
-.box .buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  gap: 10px;
-  flex: 1;
-}
-
-.buttons button {
-  width: 60px;
-  height: 30px;
-  text-align: center;
-  border: none;
-  background-color: #eeeeee;
-  font-size: 14px;
-}
-
-.popup-window {
-  width: 400px;
-  height: 400px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  translate: -50%, -50%;
-  background-color: grey;
 }
 
 .title {

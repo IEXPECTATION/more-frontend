@@ -26,7 +26,8 @@ watch(visible, async (newValue) => {
   if (newValue) {
     nextTick(async () => {
       inputRefs.value?.focus();
-      inputRefs.value!.value = "";
+      // inputRefs.value!.value = "";
+      inputRefs.value!.value = amountStore.Get("Cash").toString();
     })
   }
 });

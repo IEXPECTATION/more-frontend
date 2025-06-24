@@ -57,7 +57,7 @@ const flipped = ref(false);
 
 onMounted(() => {
   if (userStore.IsLogined()) {
-    router.push("/");
+    router.replace("/");
   }
 })
 

@@ -12,9 +12,8 @@ const userStore = useUserStore();
 
 onMounted(() => {
   initStore();
-
   if (!userStore.IsLogined()) {
-    router.replace("/login");
+    router.replace("/auth");
   }
 })
 </script>

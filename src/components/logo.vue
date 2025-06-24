@@ -13,7 +13,7 @@ p {
   left: 1%;
   padding: 10px;
   color: white;
-  background-color: #588ebc;
+  background-color: #194a7a;
   font-weight: bold;
   border-radius: 8px;
 }
