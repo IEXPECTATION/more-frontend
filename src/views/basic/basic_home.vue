@@ -1,10 +1,19 @@
 <template>
   <div class="card-container">
     <div v-for="(item, index) in cards" :key="item.name" :class="item.class">
-      <p class="title" @click="popup(item.name)">{{ item.name }}</p>
-      <p class="amount" :class="index < 3 ? colorize(getAmount(item.name)) : ''" @click="popup(item.name)">{{
-        getAmount(item.name) }}</p>
+      <div class="item">
+        <p class="title" @click="popup(item.name)">{{ item.name }}</p>
+      </div>
+      <div class="item">
+        <p class="amount" :class="index < 3 ? colorize(getAmount(item.name)) : ''" @click="popup(item.name)">{{
+          getAmount(item.name) }}</p>
+      </div>
+      <div class="buttons">
+        <button class="plus-button" @click="console.log('I click the config button')">Config</button>
+        <button class="minus-button" @click="console.log('I click the clean button')">Clean</button>
+      </div>
     </div>
+
   </div>
 
   <PopupWindow :visible="diaglogVisible" @update:visible="diaglogVisible = $event">
@@ -115,6 +124,11 @@ function colorize(amount: number): string {
   border-radius: 10px;
 }
 
+.title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 .box:hover .title {
   font-size: 2rem;
   font-weight: 600;
@@ -126,16 +140,20 @@ function colorize(amount: number): string {
   text-align: center;
 }
 
+.box .item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
 .box .title {
   font-size: 1.5rem;
-  flex: 1;
 }
 
 .box .amount {
   font-size: 1.2rem;
   font-weight: bolder;
   cursor: pointer;
-  flex: 1;
 }
 
 .golden-egg p {
@@ -146,8 +164,29 @@ function colorize(amount: number): string {
   color: silver;
 }
 
-.title {
-  font-size: 1.2em;
-  font-weight: bold;
+.box .buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+  flex: 1;
+}
+
+.buttons button {
+  width: 60px;
+  height: 30px;
+  text-align: center;
+  border: 1px solid #bbb;
+  background-color: #ccc;
+  font-size: 14px;
+}
+
+.buttons button:hover {
+  cursor: pointer;
+  background-color: #aaa
+}
+
+.buttons button:active {
+  background-color: #888;
 }
 </style>
